@@ -1,0 +1,56 @@
+# import instructables_contests as ins_contests
+import logging
+import os
+import sys
+import screen_util as screen
+import traceback
+
+from PIL import Image, ImageDraw, ImageFont
+from waveshare_epd import epd7in5_V2
+
+picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
+libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+if os.path.exists(libdir):
+    sys.path.append(libdir)
+
+logging.basicConfig(level=logging.DEBUG)
+epd = epd7in5_V2.EPD()
+Limage = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
+draw = ImageDraw.Draw(Limage)
+font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
+font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
+
+class Instructables:
+
+    def initialize(self):
+        screen.initialize()
+
+    def draw_speech_bubble(self):
+        draw.line((15, 20, 15, 620), fill=0, width=2)
+        draw.line((465, 20, 465, 620), fill=0, width=2)
+        draw.arc((15, 15, 25, 25), 180, 270, fill=0, width=2)
+        draw.arc((15, 615, 25, 625), 90, 180, fill=0, width=2)
+        draw.line((20, 15, 460, 15), fill=0, width=2)
+        draw.line((20, 625, 460, 625), fill=0, width=2)
+        draw.arc((455, 15, 465, 25), 270, 360, fill=0, width=2)
+        draw.arc((455, 615, 465, 625), 0, 90, fill=0, width=2)
+
+    # def draw_battery(self):
+
+
+    def draw_layout(self):
+        print("Drawing instrucatables layout...")
+        bmp = Image.open(os.path.join(picdir, '100x100.bmp'))
+        Limage.paste(bmp, (15, 700))
+        draw.text((150, 15), 'Instructables', font=font24, fill=0)
+        self.draw_speech_bubble()
+        screen.draw_battery(draw,font18, Limage)
+        screen.display(Limage)
+
+
+
+    def run(self):
+        self.initialize()
+        self.draw_layout()
+
+# if __name__ == '__main__':
