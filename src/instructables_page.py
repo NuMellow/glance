@@ -1,4 +1,4 @@
-# import instructables_contests as ins_contests
+import instructables_contests as ins_contests
 import logging
 import os
 import sys
@@ -20,6 +20,12 @@ draw = ImageDraw.Draw(Limage)
 font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
 font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
 
+FIRST_ITEM_VPOS = 60
+ITEM_LEFT_MARGIN = 30
+ITEM_HEIGHT = 75
+ITEM_TOP_MARGIN = 30
+TITLE_HPOS = 150
+
 class Instructables:
 
     def initialize(self):
@@ -35,8 +41,9 @@ class Instructables:
         draw.arc((455, 15, 465, 25), 270, 360, fill=0, width=2)
         draw.arc((455, 615, 465, 625), 0, 90, fill=0, width=2)
 
-    # def draw_battery(self):
-
+    def draw_battery(self):
+        battery = screen.get_battery()
+        draw.text((429, 780), battery, font=font18, fill=0)
 
     def draw_layout(self):
         print("Drawing instrucatables layout...")
@@ -44,13 +51,28 @@ class Instructables:
         Limage.paste(bmp, (15, 700))
         draw.text((150, 15), 'Instructables', font=font24, fill=0)
         self.draw_speech_bubble()
-        screen.draw_battery(draw,font18, Limage)
+        self.draw_battery()
         screen.display(Limage)
 
+    def place_contest_items(self):
+        arrange = FIRST_ITEM_VPOS
+        for item in ins_contests.contests.contests:
+            if arrange <= 545:
+                days_until_text = "Days left: " + str(item.days_until)
+                pic = Image.open(item.contest_graphic_uri)
+                Limage.paste(pic, (ITEM_LEFT_MARGIN, arrange))
+                draw.text((TITLE_HPOS, arrange), item.name, font=font18, fill=0)
+                draw.text((TITLE_HPOS, arrange + 40), days_until_text, font=font18, fill=0)
+                arrange += ITEM_HEIGHT + ITEM_TOP_MARGIN
+            else:
+                break
 
+    def draw_contests(self):
+        self.place_contest_items()
+        screen.initialize()
+        screen.display(Limage)
 
     def run(self):
         self.initialize()
         self.draw_layout()
-
-# if __name__ == '__main__':
+        self.draw_contests()

@@ -22,8 +22,15 @@ def clear_screen():
     epd.init()
     epd.Clear()
 
+    sleep()
+
+def sleep():
     logging.info("Go to sleep...")
     epd.sleep()
+
+def wake():
+    Logging.info("Wake up...")
+    epd.init()
 
 def close():
     epd7in5_V2.epdconfig.module_exit()
@@ -38,8 +45,4 @@ def get_battery():
     battery = battery.read()
     value = battery[8:battery.index('.')] + '%'
     return value
-
-def draw_battery(draw, font, Limage):
-    battery = get_battery()
-    draw.text((420, 780), battery, font=font, fill=0)
 

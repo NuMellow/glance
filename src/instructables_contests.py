@@ -34,6 +34,7 @@ app = Flask(__name__)
 pyportal_clip_upper_left = (260, 7)
 pyportal_clip_lower_right = (740, 367)
 pyportal_size = (320, 240)
+glance_size = (100, 75)
 
 
 @dataclass
@@ -72,9 +73,9 @@ def convert_image_url_to_small(url):
         image_file = io.BytesIO(r.content)
         im = Image.open(image_file)
         im_reduced = im.crop((*pyportal_clip_upper_left, *pyportal_clip_lower_right)) \
-            .resize(pyportal_size)
-        draw = ImageDraw.Draw(im_reduced)
-        draw.rectangle([(20, 195), (300, 235)], fill=(0, 0, 0), outline=(255, 255, 255))
+            .resize(glance_size)
+        # draw = ImageDraw.Draw(im_reduced)
+        # draw.rectangle([(20, 195), (300, 235)], fill=(0, 0, 0), outline=(255, 255, 255))
         im_reduced = im_reduced.convert(mode="P", palette=Image.ADAPTIVE, colors=256)
         im.close()
         return im_reduced
