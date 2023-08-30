@@ -38,7 +38,6 @@ def close():
 def display(Limage):
     epd.display(epd.getbuffer(Limage))
     time.sleep(2)
-    epd.sleep()
 
 def get_battery():
     battery = os.popen('echo "get battery" | nc -q 0 127.0.0.1 8423')

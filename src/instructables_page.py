@@ -19,6 +19,7 @@ Limage = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
 draw = ImageDraw.Draw(Limage)
 font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
 font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
+font12 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 12)
 
 FIRST_ITEM_VPOS = 60
 ITEM_LEFT_MARGIN = 30
@@ -37,9 +38,12 @@ class Instructables:
         draw.arc((15, 15, 25, 25), 180, 270, fill=0, width=2)
         draw.arc((15, 615, 25, 625), 90, 180, fill=0, width=2)
         draw.line((20, 15, 460, 15), fill=0, width=2)
-        draw.line((20, 625, 460, 625), fill=0, width=2)
+        draw.line((20, 625, 180, 625), fill=0, width=2)
+        draw.line((200, 625, 460, 625), fill=0, width=2)
         draw.arc((455, 15, 465, 25), 270, 360, fill=0, width=2)
         draw.arc((455, 615, 465, 625), 0, 90, fill=0, width=2)
+        draw.line((180, 625, 180, 645),fill=0, width=2)
+        draw.line((180, 645, 200, 625), fill=0, width=2)
 
     def draw_battery(self):
         battery = screen.get_battery()
@@ -47,8 +51,8 @@ class Instructables:
 
     def draw_layout(self):
         print("Drawing instrucatables layout...")
-        bmp = Image.open(os.path.join(picdir, '100x100.bmp'))
-        Limage.paste(bmp, (15, 700))
+        bmp = Image.open(os.path.join(picdir, 'Megan.bmp'))
+        Limage.paste(bmp, (15, 650))
         draw.text((150, 15), 'Instructables', font=font24, fill=0)
         self.draw_speech_bubble()
         self.draw_battery()
@@ -59,10 +63,12 @@ class Instructables:
         for item in ins_contests.contests.contests:
             if arrange <= 545:
                 days_until_text = "Days left: " + str(item.days_until)
+                entries = "Entries: " + str(item.entry_count)
                 pic = Image.open(item.contest_graphic_uri)
                 Limage.paste(pic, (ITEM_LEFT_MARGIN, arrange))
                 draw.text((TITLE_HPOS, arrange), item.name, font=font18, fill=0)
-                draw.text((TITLE_HPOS, arrange + 40), days_until_text, font=font18, fill=0)
+                draw.text((TITLE_HPOS, arrange + 40), days_until_text, font=font12, fill=0)
+                draw.text((300, arrange + 40), entries, font=font12, fill=0)
                 arrange += ITEM_HEIGHT + ITEM_TOP_MARGIN
             else:
                 break
@@ -76,3 +82,4 @@ class Instructables:
         self.initialize()
         self.draw_layout()
         self.draw_contests()
+        screen.sleep()

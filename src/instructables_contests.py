@@ -74,9 +74,7 @@ def convert_image_url_to_small(url):
         im = Image.open(image_file)
         im_reduced = im.crop((*pyportal_clip_upper_left, *pyportal_clip_lower_right)) \
             .resize(glance_size)
-        # draw = ImageDraw.Draw(im_reduced)
-        # draw.rectangle([(20, 195), (300, 235)], fill=(0, 0, 0), outline=(255, 255, 255))
-        im_reduced = im_reduced.convert(mode="P", palette=Image.ADAPTIVE, colors=256)
+        im_reduced = im_reduced.convert(mode="L", palette=Image.ADAPTIVE, colors=256)
         im.close()
         return im_reduced
     return None
