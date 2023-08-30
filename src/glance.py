@@ -24,7 +24,7 @@ def main():
     
     except KeyboardInterrupt:    
         logging.info("ctrl + c:")
-        screen.close()
+        screen.clear_screen()
         exit()
 
     while True:
@@ -34,7 +34,6 @@ def main():
         except KeyboardInterrupt:
             logging.info("ctrl + c:")
             screen.clear_screen()
-            screen.close()
             exit()
 
 if __name__ == '__main__':

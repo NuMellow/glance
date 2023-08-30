@@ -56,9 +56,8 @@ class Instructables:
         draw.text((150, 15), 'Instructables', font=font24, fill=0)
         self.draw_speech_bubble()
         self.draw_battery()
-        screen.display(Limage)
 
-    def place_contest_items(self):
+    def draw_contests(self):
         arrange = FIRST_ITEM_VPOS
         for item in ins_contests.contests.contests:
             if arrange <= 545:
@@ -73,13 +72,9 @@ class Instructables:
             else:
                 break
 
-    def draw_contests(self):
-        self.place_contest_items()
-        screen.initialize()
-        screen.display(Limage)
-
     def run(self):
         self.initialize()
         self.draw_layout()
         self.draw_contests()
+        screen.display(Limage)
         screen.sleep()
