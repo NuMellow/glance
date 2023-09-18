@@ -55,7 +55,7 @@ class Instructables:
         Limage.paste(bmp, (15, 650))
         draw.text((150, 15), 'Instructables', font=font24, fill=0)
         self.draw_speech_bubble()
-        self.draw_battery()
+        #self.draw_battery()
 
     def draw_contests(self):
         arrange = FIRST_ITEM_VPOS

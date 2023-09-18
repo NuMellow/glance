@@ -6,6 +6,7 @@ import time
 import traceback
 
 from instructables_page import Instructables
+# from frame import Frame
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -18,6 +19,8 @@ def main():
         instructables = Instructables()
         instructables.run()
 
+        # frame = Frame()
+        # frame.run()
         time.sleep(2)
     except IOError as e:
         logging.info(e)
