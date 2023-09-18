@@ -12,12 +12,24 @@ pyportal_clip_upper_left = (260, 7)
 pyportal_clip_lower_right = (740, 367)
 glance_size = (480, 800)
 
+def get_ratio(image):
+    width = image.width
+    height = image.height
+    new_width = (3*height) / 5
+
+    left_crop = (width / 2) - (new_width / 2) 
+    right_crop = (width / 2) + (new_width / 2)
+    image = image.crop((left_crop, 0, right_crop, height))
+
+    return image
+
 def convert_image_url(url):
     r = requests.get(url)
     if r.status_code == 200:
         image_file = io.BytesIO(r.content)
         im = Image.open(image_file)
-        im.thumbnail(glance_size)
+        im = get_ratio(im)
+        im.resize(glance_size)
         im_reduced = im.convert(mode="L", palette=Image.ADAPTIVE, colors=256)
         im.close()
         return im_reduced
@@ -27,7 +39,7 @@ def get_images():
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
     image_anc = soup.find_all('a', class_='p137Zd')
-    count = 0
+    count = 10
     for link in image_anc:
         count +=1
         uri = link['href'][1:]
@@ -38,3 +50,5 @@ def get_images():
         image = convert_image_url(img_tag)
         image_name = urllib.parse.quote('static/album/' + str(count) +'.bmp')
         image.save(image_name, 'BMP')
+
+get_images()
