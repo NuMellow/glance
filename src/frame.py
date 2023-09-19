@@ -1,11 +1,12 @@
 import os
+import random
 import screen_util as screen
 import sys
 
 from PIL import Image, ImageDraw, ImageFont
 from waveshare_epd import epd7in5_V2
 
-picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
+picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'src', 'static', 'album')
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
@@ -19,12 +20,22 @@ class Frame:
     def initialize(self):
         screen.initialize()
 
-    def draw_photo(self):
-        bmp = Image.open(os.path.join(picdir, 'MeganPicFrame.bmp'))
-        Limage.paste(bmp, (0, 129))
-
+    def draw_photo(self, photo_name):
+        bmp = Image.open(os.path.join(picdir, photo_name))
+        Limage.paste(bmp, (0, 0))
+    
+    def get_random_photo(self):
+        photo_list = os.listdir(picdir)
+        index = random.randint(0, len(photo_list))
+        photo = photo_list[index]
+        self.draw_photo(photo)
+ 
     def run(self):
         self.initialize()
-        self.draw_photo()
+        self.get_random_photo()
         screen.display(Limage)
         screen.sleep()
+
+if __name__ == '__main__':
+    frame = Frame()
+    frame.run()
