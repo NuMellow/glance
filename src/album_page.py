@@ -1,18 +1,21 @@
-from flask import Flask, render_template, jsonify
+from zipfile import ZipFile
 import requests
-import threading
-import time
 from bs4 import BeautifulSoup
 from PIL import Image
 import io
 import urllib
 
 URL = ''
-pyportal_clip_upper_left = (260, 7)
-pyportal_clip_lower_right = (740, 367)
 glance_size = (480, 800)
 
-def get_ratio(image):
+def get_url():
+    global URL
+    f = open('album.conf', 'r')
+    url = f.readline()[4:]
+    URL = url
+    f.close()
+
+def crop_image(image):
     width = image.width
     height = image.height
     new_width = (3*height) / 5
@@ -23,32 +26,42 @@ def get_ratio(image):
 
     return image
 
-def convert_image_url(url):
-    r = requests.get(url)
-    if r.status_code == 200:
-        image_file = io.BytesIO(r.content)
-        im = Image.open(image_file)
-        im = get_ratio(im)
-        im.resize(glance_size)
-        im_reduced = im.convert(mode="L", palette=Image.ADAPTIVE, colors=256)
-        im.close()
-        return im_reduced
-    return None
+def resize_image(image_file):
+    im = Image.open(image_file)
+    im = crop_image(im)
+    im = im.resize(glance_size)
+    im_reduced = im.convert(mode="L", palette=Image.ADAPTIVE, colors=256)
+    im.close()
+    return im_reduced
 
 def get_images():
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
-    image_anc = soup.find_all('a', class_='p137Zd')
-    count = 10
-    for link in image_anc:
-        count +=1
-        uri = link['href'][1:]
-        uri = uri.replace('%3F', '?').replace('%3D', '=')
-        actual_img_page = requests.get('https://photos.google.com' + uri)
-        more_soup = BeautifulSoup(actual_img_page.content, 'html.parser')
-        img_tag = more_soup.find('img')['src']
-        image = convert_image_url(img_tag)
-        image_name = urllib.parse.quote('static/album/' + str(count) +'.bmp')
-        image.save(image_name, 'BMP')
+    print('Got soup...')
+    all_scripts = soup.find_all('script')
+    download_link = ''
+    print('Reading the script...')
+    for script in all_scripts:
+        items = str(script).split(',')
+        for i in items:
+            if 'https://video-downloads' in i:
+                download_link = i.replace('"', '')
+                print('YES! ' + i)
+                break
 
-get_images()
+    if len(download_link) > 0:
+        zip_name = 'images.zip'
+        print('Download the zip...')
+        urllib.request.urlretrieve(download_link, zip_name)
+        with ZipFile(zip_name, 'r') as zip:
+            image_names = zip.namelist()
+            print('Grabbing the photos...')
+            for image in image_names:
+                bmp_name = image.split('.')[0] + '.bmp'
+                img = zip.open(image)
+                ima = resize_image(img)
+                ima.save('static/album/' + bmp_name, 'BMP')
+
+if __name__ == '__main__':
+    get_url()
+    get_images()
