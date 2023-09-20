@@ -73,6 +73,7 @@ class Instructables:
                 break
 
     def run(self):
+        ins_contests.download_contests()
         self.initialize()
         self.draw_layout()
         self.draw_contests()

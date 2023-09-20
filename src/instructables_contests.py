@@ -149,8 +149,8 @@ def get_meta():
     meta.next_update_minutes = UPDATE_EVERY - ((datetime.now() - meta.last_update_dt).seconds // 60)
     return jsonify(meta)
 
-
-setup_server(meta, contests)
+def download_contests():
+    setup_server(meta, contests)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

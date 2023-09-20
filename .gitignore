@@ -1,6 +1,6 @@
 # Glance
 album/
-album.conf
+*.conf
 constestImg/
 images.zip
 
