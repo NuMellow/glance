@@ -1,67 +1,46 @@
-from zipfile import ZipFile
-import requests
-from bs4 import BeautifulSoup
-from PIL import Image
-import io
-import urllib
+import album_pictures
+import os
+import random
+import screen_util as screen
+import sys
 
-URL = ''
-glance_size = (480, 800)
+from PIL import Image, ImageDraw, ImageFont
+from waveshare_epd import epd7in5_V2
 
-def get_url():
-    global URL
-    f = open('album.conf', 'r')
-    url = f.readline()[4:]
-    URL = url
-    f.close()
+picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'src', 'static', 'album')
+libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+if os.path.exists(libdir):
+    sys.path.append(libdir)
 
-def crop_image(image):
-    width = image.width
-    height = image.height
-    new_width = (3*height) / 5
+epd = epd7in5_V2.EPD()
+Limage = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
+draw = ImageDraw.Draw(Limage)
 
-    left_crop = (width / 2) - (new_width / 2) 
-    right_crop = (width / 2) + (new_width / 2)
-    image = image.crop((left_crop, 0, right_crop, height))
+class Album:
 
-    return image
+    def initialize(self):
+        screen.initialize()
 
-def resize_image(image_file):
-    im = Image.open(image_file)
-    im = crop_image(im)
-    im = im.resize(glance_size)
-    im_reduced = im.convert(mode="L", palette=Image.ADAPTIVE, colors=256)
-    im.close()
-    return im_reduced
+    def draw_photo(self, photo_name):
+        bmp = Image.open(os.path.join(picdir, photo_name))
+        Limage.paste(bmp, (0, 0))
+    
+    def get_random_photo(self):
+        photo_list = os.listdir(picdir)
+        index = random.randint(0, len(photo_list) -1)
+        photo = photo_list[index]
+        self.draw_photo(photo)
 
-def get_images():
-    page = requests.get(URL)
-    soup = BeautifulSoup(page.content, 'html.parser')
-    print('Got soup...')
-    all_scripts = soup.find_all('script')
-    download_link = ''
-    print('Reading the script...')
-    for script in all_scripts:
-        items = str(script).split(',')
-        for i in items:
-            if 'https://video-downloads' in i:
-                download_link = i.replace('"', '')
-                print('YES! ' + i)
-                break
-
-    if len(download_link) > 0:
-        zip_name = 'images.zip'
-        print('Download the zip...')
-        urllib.request.urlretrieve(download_link, zip_name)
-        with ZipFile(zip_name, 'r') as zip:
-            image_names = zip.namelist()
-            print('Grabbing the photos...')
-            for image in image_names:
-                bmp_name = image.split('.')[0] + '.bmp'
-                img = zip.open(image)
-                ima = resize_image(img)
-                ima.save('static/album/' + bmp_name, 'BMP')
+    def download_photos(self):
+        album_pictures.get_url()
+        album_pictures.get_images()
+ 
+    def run(self):
+        self.initialize()
+        self.get_random_photo()
+        screen.display(Limage)
+        screen.sleep()
 
 if __name__ == '__main__':
-    get_url()
-    get_images()
+    album = Album()
+    album.run()
