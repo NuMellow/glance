@@ -11,7 +11,7 @@ glance_size = (480, 800)
 def get_url():
     global URL
     f = open('album.conf', 'r')
-    url = f.readline()[4:]
+    url = f.readline().split('=')[1]
     URL = url
     f.close()
 

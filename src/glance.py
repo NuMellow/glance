@@ -20,7 +20,8 @@ def main():
         page = 0
         if os.path.exists('glance.conf'):
             config = open('glance.conf', 'r')
-            page = int(config.readline()[5:])
+            page = int(config.readline().split('=')[1])
+            config.close()
 
         if page == 0:
             instructables = Instructables()
