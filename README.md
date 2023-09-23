@@ -9,16 +9,42 @@ An e-ink display with fun and helpful information, just a glance away.
 
 ## Contents
 
-- [Intro](#intro)
+- [About](#about)
 - [Getting Started](#getting-started)
 - [Contributing and adding your own apps](#contributing-adding-and-suggesting-your-own-apps)
 - [Acknowledgements and credits](#acknowledgements-and-credits)
 
-## Intro
-Glance is a picture frame-like e-ink tablet that is designed to display glance-able information thoughout the week. 
+## About
+Glance is a picture frame-like e-ink tablet that is designed to display glance-able information thoughout the week.
+
+It is made using a 7.5 inch e-ink display, rasberry pi 3b, pi sugar battery hat and a 3D printed casing.
+
+It currently has 2 apps:
+- Current Contests - Displays the current open contests on instrucatables.com
+- Photo Album - Displays a random image from shared google photos album 
 
 ## Getting Started
+### Hardware
+Check out the wiki(coming soon) for details on how to make one
 
+### Software
+After downloading the repository, navigate into the `glance` directory and run the following commands 
+
+#### Installing packages
+- `pip install -r requirements.txt` - Installs necessary packages to run glance
+
+#### Setting up the .conf files
+There are several `.conf` files in the src directory. These are configuration files that can configure the way glance behaves
+
+- glance.conf - This file determines which app (also called pages) to show. If you use the pi sugar battery you can set the custom button to cycle through the pages depending on what content you want to show. See wiki(comimng soon) for details
+- app.conf - This file lists the total number apps.
+- battery.conf - This file shows whether Glance is using the pi sugar battery and can display battery percentage in the different apps. If you're not using the battery update it to 'False'
+- album.conf - This is used for the Album app. Add a url to a shared google photos album.
+
+#### Running glance
+`python glance.py`
+
+The screen remains on even without power, so if you are using a battery you can shutdown you pi and the display will continue to show information. Of course this also means that it will not be able to update the information. If you use the pi sugar, you can have it start up at a specific time every day. See wiki(coming soon) for details.
 
 ## Contributing, adding and suggesting your own apps
 I made this project primarily to explore using e-ink displays and so may/may not continue to make apps for it. That being said though if you want to make your own apps for Glance, you can either fork this repo and create to your heart's content or pull this repo and create a pull request to have it added to this project. Or if you have app requests you could create an issue with the "App request" label and who knows, I just might make it.
