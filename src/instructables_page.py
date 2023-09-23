@@ -6,7 +6,6 @@ import screen_util as screen
 import traceback
 
 from PIL import Image, ImageDraw, ImageFont
-from waveshare_epd import epd7in5_V2
 
 picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
@@ -14,7 +13,7 @@ if os.path.exists(libdir):
     sys.path.append(libdir)
 
 logging.basicConfig(level=logging.DEBUG)
-epd = epd7in5_V2.EPD()
+epd = screen.epd
 Limage = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
 draw = ImageDraw.Draw(Limage)
 font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
@@ -55,7 +54,8 @@ class Instructables:
         Limage.paste(bmp, (15, 650))
         draw.text((150, 15), 'Instructables', font=font24, fill=0)
         self.draw_speech_bubble()
-        #self.draw_battery()
+        if screen.has_pi_sugar:
+            self.draw_battery()
 
     def draw_contests(self):
         arrange = FIRST_ITEM_VPOS

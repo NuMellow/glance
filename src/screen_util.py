@@ -7,8 +7,14 @@ libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__)
 if os.path.exists(libdir):
     sys.path.append(libdir)
 from waveshare_epd import epd7in5_V2
+import os
 
 epd = epd7in5_V2.EPD()
+has_pi_sugar = False
+
+if os.path.exists('battery.conf'):
+    batt_conf = open('battery.conf')
+    has_pi_sugar = bool(batt_conf.readline().split('=')[1])
 
 def initialize():
     logging.info("Initializing screen")
@@ -41,7 +47,7 @@ def display(Limage):
 
 def get_battery():
     battery = os.popen('echo "get battery" | nc -q 0 127.0.0.1 8423')
-    battery = battery.read()
-    value = battery[8:battery.index('.')] + '%'
+    battery = battery.read().split(':')[1]
+    value = battery[1:battery.index('.')] + '%'
     return value
 
