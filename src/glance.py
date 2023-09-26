@@ -28,8 +28,8 @@ def main():
             instructables.run()
         elif page == 1:
             album = Album()
-            album.download_photos()
             album.run()
+            album.download_photos()
         else:
             instructables = Instructables()
             instructables.run()
