@@ -43,14 +43,5 @@ def main():
         screen.clear_screen()
         exit()
 
-    while True:
-        try:
-            continue
-            #check for new data
-        except KeyboardInterrupt:
-            logging.info("ctrl + c:")
-            screen.clear_screen()
-            exit()
-
 if __name__ == '__main__':
     main()
