@@ -36,9 +36,10 @@ After downloading the repository, navigate into the `glance` directory and run t
 #### Setting up the .conf files
 There are several `.conf` files in the src directory. These are configuration files that can configure the way glance behaves
 
-- glance.conf - This file determines which app (also called pages) to show. If you use the pi sugar battery you can set the custom button to cycle through the pages depending on what content you want to show. See wiki(comimng soon) for details
+- glance.conf - This file contains the following confiuration:
+   - page: determines which app (also called pages) to show. If you use the pi sugar battery you can set the custom button to cycle through the pages depending on what content you want to show. See wiki(comimng soon) for details
+   - has_pi_sugar: determines whether Glance is using the pi sugar battery and can display battery percentage in the different apps. If you're not using the battery update it to 'False'
 - app.conf - This file lists the total number apps.
-- battery.conf - This file shows whether Glance is using the pi sugar battery and can display battery percentage in the different apps. If you're not using the battery update it to 'False'
 - album.conf - This is used for the Album app. Add a url to a shared google photos album.
 
 #### Running glance
