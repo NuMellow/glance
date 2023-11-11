@@ -35,7 +35,7 @@ def sleep():
     epd.sleep()
 
 def wake():
-    Logging.info("Wake up...")
+    logging.info("Wake up...")
     epd.init()
 
 def close():
