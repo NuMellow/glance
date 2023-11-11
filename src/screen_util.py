@@ -48,6 +48,9 @@ def display(Limage):
 def get_battery():
     battery = os.popen('echo "get battery" | nc -q 0 127.0.0.1 8423')
     battery = battery.read().split(':')[1]
-    value = battery[1:battery.index('.')] + '%'
+    if battery.find(".") < 0:
+        value = battery + "%"
+    else:
+        value = battery[1:battery.index('.')] + '%'
     return value
 
