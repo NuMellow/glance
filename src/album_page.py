@@ -1,33 +1,23 @@
 import album_pictures
 import os
 import random
-import screen_util as screen
-import sys
 
-from PIL import Image, ImageDraw, ImageFont
+from page import Page
+from PIL import Image, ImageFont
 
-picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'src', 'static', 'album')
-fontdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
-libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
-if os.path.exists(libdir):
-    sys.path.append(libdir)
+class Album(Page):
 
-epd = screen.epd
-Limage = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
-draw = ImageDraw.Draw(Limage)
-font18 = ImageFont.truetype(os.path.join(fontdir, 'Font.ttc'), 18)
-
-class Album:
-
-    def initialize(self):
-        screen.initialize()
+    def __init__(self):
+        super().__init__()
+        self.pic_dir = os.path.join(self.base_dir, "src", "static", "album")
+        self.font18 = ImageFont.truetype(os.path.join(self.font_dir, "Font.ttc"), 18)
 
     def draw_photo(self, photo_name):
-        bmp = Image.open(os.path.join(picdir, photo_name))
-        Limage.paste(bmp, (0, 0))
+        bmp = Image.open(os.path.join(self.pic_dir, photo_name))
+        self.Limage.paste(bmp, (0, 0))
     
     def get_random_photo(self):
-        photo_list = os.listdir(picdir)
+        photo_list = os.listdir(self.pic_dir)
         index = random.randint(0, len(photo_list) -1)
         photo = photo_list[index]
         self.draw_photo(photo)
@@ -37,17 +27,17 @@ class Album:
         album_pictures.get_images()
 
     def draw_battery(self):
-        if screen.has_pi_sugar:
-            battery = screen.get_battery()
-            draw.rectangle([420, 775, 470, 800], fill=255)
-            draw.text((429, 780), battery, font=font18, fill=0)
- 
-    def run(self):
-        self.initialize()
+        battery = self.get_battery()
+        if battery is not None:
+            self.draw.rectangle([420, 775, 470, 800], fill=255)
+            self.draw.text((429, 780), battery, font=self.font18, fill=0)
+
+    def draw_page(self):
         self.get_random_photo()
         self.draw_battery()
-        screen.display(Limage)
-        screen.sleep()
+ 
+    def run(self):
+        return super().run()
 
 if __name__ == '__main__':
     album = Album()
