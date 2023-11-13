@@ -39,7 +39,7 @@ There are several `.conf` files in the src directory. These are configuration fi
 - glance.conf - This file contains the following configuration:
    - page: determines which app (also called pages) to show. If you use the pi sugar battery you can set the custom button to cycle through the pages depending on what content you want to show. See wiki(comimng soon) for details
    - has_pi_sugar: determines whether Glance is using the pi sugar battery and can display battery percentage in the different apps. If you're not using the battery update it to 'False'
-- app.conf - This file lists the total number apps.
+   - numofapps - This is the total number apps.
 - album.conf - This is used for the Album app. Add a url to a shared google photos album.
 
 #### Running glance
@@ -48,7 +48,7 @@ There are several `.conf` files in the src directory. These are configuration fi
 The screen remains on even without power, so if you are using a battery you can shutdown you pi and the display will continue to show information. Of course this also means that it will not be able to update the information. If you use the pi sugar, you can have it start up at a specific time every day. See wiki(coming soon) for details.
 
 ## Contributing, adding and suggesting your own apps
-I made this project primarily to explore using e-ink displays and so may/may not continue to make apps for it. That being said though if you want to make your own apps for Glance, you can either fork this repo and create to your heart's content or pull this repo and create a pull request to have it added to this project. Or if you have app requests you could create an issue with the "App request" label and who knows, I just might make it.
+If you have app requests you could create an issue with the "App request" label and perhaps I might make it. Or if you would like to make your own apps for Glance, you can either fork this repo and create to your heart's content or pull this repo and create a pull request to have it added to this project 😀.
 
 ## Acknowledgements and credits
 - The instrucatbles contest app makes use of the webscraper created by James Matlock in his repo: https://github.com/jmatlock/ContestScraperFlask
