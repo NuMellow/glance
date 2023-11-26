@@ -15,22 +15,19 @@ Basically there are three links served up by this web server:
 By default, the server responds on all IP addresses at port 5000 on the
 host computer.
 """
-from flask import Flask, render_template, jsonify
 import requests
 import threading
 import time
 from bs4 import BeautifulSoup
 from datetime import datetime
-from PIL import Image, ImageDraw
+from PIL import Image
 import io
 from dataclasses import dataclass
 import urllib
 
 URL = "https://www.instructables.com/contest/"
 UPDATE_EVERY = 120  # Number of minutes between updates from Instructables
-# UPDATE_EVERY = 15  # TEST VALUE REMOVE
 
-app = Flask(__name__)
 pyportal_clip_upper_left = (260, 7)
 pyportal_clip_lower_right = (740, 367)
 pyportal_size = (320, 240)
@@ -132,25 +129,8 @@ def setup_server(meta_data, contests_data):
     thread = threading.Thread(target=contest_update_job, args=(meta_data, contests_data,), daemon=True)
     thread.start()
 
-
-@app.route('/')
-def index():
-    return render_template('index.html', contests=contests.contests)
-
-
-@app.route('/api/v1/contests', methods=['GET'])
-def get_contests():
-    return jsonify(contests.contests)
-
-
-@app.route('/api/v1/meta', methods=['GET'])
-def get_meta():
-    meta.current_time = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-    meta.next_update_minutes = UPDATE_EVERY - ((datetime.now() - meta.last_update_dt).seconds // 60)
-    return jsonify(meta)
-
 def download_contests():
     setup_server(meta, contests)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    setup_server(meta, contests)
