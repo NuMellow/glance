@@ -28,6 +28,13 @@ It currently has 2 apps:
 Check out the wiki(coming soon) for details on how to make one
 
 ### Software
+In order to use glance, you will need to install the libraries for the e-ink screen and PiSugar battery. If using the same hardware as this project, follow the steps here:
+
+- Waveshare 7.5 inch e-ink screen - https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT_Manual#Working_With_Raspberry_Pi
+
+- PiSugar Power Manager - https://github.com/PiSugar/PiSugar/wiki/PiSugar-Power-Manager-(Software)
+
+Once this is done, you can go ahead and clone/download this repository.
 After downloading the repository, navigate into the `glance` directory and run the following commands 
 
 #### Installing packages
