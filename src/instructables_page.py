@@ -21,6 +21,14 @@ class Instructables(Page):
         self.font_small = ImageFont.truetype(font, 12)
         ins_contests.download_contests()
 
+    def truncate_long_name(name, truncate_length=32):
+        truncated_name = name
+
+        if len(name) > truncate_length:
+            truncated_name = name[:truncate_length] + "..."
+        
+        return truncated_name
+
     def draw_speech_bubble(self):
         self.draw.line((15, 20, 15, 620), fill=0, width=2)
         self.draw.line((465, 20, 465, 620), fill=0, width=2)
@@ -51,11 +59,12 @@ class Instructables(Page):
         arrange = self.FIRST_ITEM_VPOS
         for item in ins_contests.contests.contests:
             if arrange <= 545:
+                name = self.truncate_long_name(item.name)
                 days_until_text = "Days left: " + str(item.days_until)
                 entries = "Entries: " + str(item.entry_count)
                 pic = Image.open(item.contest_graphic_uri)
                 self.Limage.paste(pic, (self.ITEM_LEFT_MARGIN, arrange))
-                self.draw.text((self.TITLE_HPOS, arrange), item.name, font=self.font_normal, fill=0)
+                self.draw.text((self.TITLE_HPOS, arrange), name, font=self.font_normal, fill=0)
                 self.draw.text((self.TITLE_HPOS, arrange + 40), days_until_text, font=self.font_small, fill=0)
                 self.draw.text((300, arrange + 40), entries, font=self.font_small, fill=0)
                 arrange += self.ITEM_HEIGHT + self.ITEM_TOP_MARGIN
