@@ -57,6 +57,7 @@ class Instructables(Page):
 
     def draw_contests(self):
         arrange = self.FIRST_ITEM_VPOS
+        other_contests_count = 0
         for item in ins_contests.contests.contests:
             if arrange <= 545:
                 name = self.truncate_long_name(item.name)
@@ -69,7 +70,11 @@ class Instructables(Page):
                 self.draw.text((300, arrange + 40), entries, font=self.font_small, fill=0)
                 arrange += self.ITEM_HEIGHT + self.ITEM_TOP_MARGIN
             else:
-                break
+                other_contests_count += 1
+        
+        arrange -= self.ITEM_HEIGHT
+        other_contests = "+ %s other contests" % other_contests_count
+        self.draw.text(self.ITEM_LEFT_MARGIN, other_contests, font=self.font_small)
 
     def draw_page(self):
         self.draw_layout()
