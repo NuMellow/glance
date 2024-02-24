@@ -72,9 +72,9 @@ class Instructables(Page):
             else:
                 other_contests_count += 1
         
-        arrange -= self.ITEM_HEIGHT
-        other_contests = "+ %s other contests" % other_contests_count
-        self.draw.text(self.ITEM_LEFT_MARGIN, other_contests, font=self.font_small)
+        if other_contests_count > 0:
+            other_contests = "+ %s other contests" % other_contests_count
+            self.draw.text((self.ITEM_LEFT_MARGIN, arrange), other_contests, font=self.font_normal)
 
     def draw_page(self):
         self.draw_layout()

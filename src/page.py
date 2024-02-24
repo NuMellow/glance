@@ -37,6 +37,7 @@ class Page:
             self.draw_page()
         except:
             self.print_error()
+            raise
         finally:
             screen.display(self.Limage)
             screen.sleep()
