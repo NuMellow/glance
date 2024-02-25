@@ -21,7 +21,7 @@ class Instructables(Page):
         self.font_small = ImageFont.truetype(font, 12)
         ins_contests.download_contests()
 
-    def truncate_long_name(name, truncate_length=32):
+    def truncate_long_name(self, name, truncate_length=32):
         truncated_name = name
 
         if len(name) > truncate_length:
