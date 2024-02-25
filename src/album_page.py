@@ -21,7 +21,7 @@ class Album(Page):
             self.download_photos()
 
         photo_list = os.listdir(self.pic_dir)
-        if photo_list > 0:
+        if len(photo_list) > 0:
             index = random.randint(0, len(photo_list) -1)
             photo = photo_list[index]
             self.draw_photo(photo)
