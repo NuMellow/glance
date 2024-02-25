@@ -24,10 +24,10 @@ class Page:
         else:
             return None
     
-    def print_error(self):
+    def print_error(self, err_msg="something went wrong on the page."):
         font = os.path.join(self.font_dir, "Font.ttc")
         font_error = ImageFont.truetype(font, 24)
-        error_message = "Something went wrong on the page."
+        error_message = err_msg
         self.draw.rectangle([20, 374, 460, 450], fill=255, outline="black", width=4)
         self.draw.text((50, 400), error_message, font=font_error, fill=0)
 

@@ -17,10 +17,16 @@ class Album(Page):
         self.Limage.paste(bmp, (0, 0))
     
     def get_random_photo(self):
+        if not os.path.exists(self.pic_dir):
+            self.download_photos()
+
         photo_list = os.listdir(self.pic_dir)
-        index = random.randint(0, len(photo_list) -1)
-        photo = photo_list[index]
-        self.draw_photo(photo)
+        if photo_list > 0:
+            index = random.randint(0, len(photo_list) -1)
+            photo = photo_list[index]
+            self.draw_photo(photo)
+        else:
+            self.print_error("Album is empty")
 
     def download_photos(self):
         album_pictures.get_url()
