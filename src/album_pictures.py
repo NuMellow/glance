@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from PIL import Image, ImageOps
 import urllib
+import os
 
 URL = ''
 glance_size = (480, 800)
@@ -40,6 +41,10 @@ def get_images():
         zip_name = 'images.zip'
         print('Download the zip...')
         urllib.request.urlretrieve(download_link, zip_name)
+        
+        if not os.path.exists('static/album'):
+            os.mkdir('static/album')
+        
         with ZipFile(zip_name, 'r') as zip:
             image_names = zip.namelist()
             print('Grabbing the photos...')
