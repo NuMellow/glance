@@ -1,4 +1,5 @@
 import album_pictures
+import datetime
 import os
 import random
 
@@ -7,10 +8,24 @@ from PIL import Image, ImageFont
 
 class Album(Page):
 
+    CONFIG_FILE = 'album.conf'
     def __init__(self):
         super().__init__()
         self.pic_dir = os.path.join(self.base_dir, "src", "static", "album")
         self.font18 = ImageFont.truetype(os.path.join(self.font_dir, "Font.ttc"), 18)
+        self.schedule_download_enabled = False
+        self.download_day= ''
+        self.should_download=True
+        if os.path.exists(self.CONFIG_FILE):
+            with open(self.CONFIG_FILE) as config:
+                for row in config:
+                    key, value = row.split('=')
+                    if key == 'schedule_download':
+                        self.schedule_download_day = bool(value)
+                    elif key =='download_day':
+                        self.download_day = value
+                    elif key == 'should_download':
+                        self.should_download = bool(value)
 
     def draw_photo(self, photo_name):
         bmp = Image.open(os.path.join(self.pic_dir, photo_name))
@@ -29,8 +44,16 @@ class Album(Page):
             self.print_error("Album is empty")
 
     def download_photos(self):
-        album_pictures.get_url()
-        album_pictures.get_images()
+        if self.should_download:
+            album_pictures.get_url()
+            if self.schedule_download_enabled:
+                date = datetime.datetime.now()
+                day = date.strftime("%A").lower()
+                
+                if day == self.download_day.lower():
+                    album_pictures.get_images()
+            else:
+                album_pictures.get_images()
 
     def draw_battery(self):
         battery = self.get_battery()
