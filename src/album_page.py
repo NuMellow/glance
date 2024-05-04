@@ -10,7 +10,7 @@ class Album(Page):
 
     CONFIG_FILE = 'album.conf'
     def __init__(self):
-        super().__init__()
+        super().__init__(debug_mode=True)
         self.pic_dir = os.path.join(self.base_dir, "src", "static", "album")
         self.font18 = ImageFont.truetype(os.path.join(self.font_dir, "Font.ttc"), 18)
         self.schedule_download_enabled = False
@@ -21,7 +21,7 @@ class Album(Page):
                 for row in config:
                     key, value = row.split('=')
                     if key == 'schedule_download':
-                        self.schedule_download_day = bool(value)
+                        self.schedule_download_enabled = bool(value)
                     elif key =='download_day':
                         self.download_day = value
                     elif key == 'should_download':
@@ -33,6 +33,7 @@ class Album(Page):
     
     def get_random_photo(self):
         if not os.path.exists(self.pic_dir):
+            os.mkdir(self.pic_dir)
             self.download_photos()
 
         photo_list = os.listdir(self.pic_dir)

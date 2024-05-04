@@ -12,8 +12,13 @@ def get_url():
     global URL
     f = open('album.conf', 'r')
     url = f.readline().split('=')[1]
-    URL = url
+    URL = format_url(url)
     f.close()
+
+def format_url(url):
+    if url[-1] == "\n":
+        url = url[:-1]
+    return url
 
 def resize_image(image_file):
     im = Image.open(image_file)
