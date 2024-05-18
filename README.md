@@ -25,7 +25,7 @@ It currently has 2 apps:
 
 ## Getting Started
 ### Hardware
-Check out the wiki(coming soon) for details on how to make one
+Check out the [wiki](https://github.com/NuMellow/glance/wiki/1.-Building-Glance) for details on how to make one
 
 ### Software
 In order to use glance, you will need to install the libraries for the e-ink screen and PiSugar battery. If using the same hardware as this project, follow the steps here:
