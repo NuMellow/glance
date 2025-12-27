@@ -20,12 +20,13 @@ class Album(Page):
             with open(self.CONFIG_FILE) as config:
                 for row in config:
                     key, value = row.split('=')
+                    value = value.strip()
                     if key == 'schedule_download':
-                        self.schedule_download_enabled = bool(value)
+                        self.schedule_download_enabled = False if value.lower() == 'false' else True
                     elif key =='download_day':
                         self.download_day = value
                     elif key == 'should_download':
-                        self.should_download = bool(value)
+                        self.should_download = False if value.lower() == 'false' else True
 
     def draw_photo(self, photo_name):
         bmp = Image.open(os.path.join(self.pic_dir, photo_name))
