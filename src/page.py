@@ -9,8 +9,8 @@ class Page:
     def __init__(self, debug_mode=False):
         self.base_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         self.font_dir = os.path.join(self.base_dir, "lib", "fonts")
-        self.epd = screen.epd
-        self.Limage = Image.new('1', (self.epd.height, self.epd.width), 255)
+        self.screen = screen.display
+        self.Limage = Image.new('1', (self.screen.width, self.screen.height), 255)
         self.draw = ImageDraw.Draw(self.Limage)
         if debug_mode is True:
             logging.basicConfig(level=logging.DEBUG)
@@ -20,7 +20,7 @@ class Page:
 
     def get_battery(self):
         if screen.has_pi_sugar:
-            return screen.get_battery()
+            return self.screen.get_battery()
         else:
             return None
     
@@ -33,11 +33,11 @@ class Page:
 
     def run(self):
         try:
-            screen.initialize()
+            self.screen.initialize()
             self.draw_page()
         except:
             self.print_error()
             raise
         finally:
-            screen.display(self.Limage)
-            screen.sleep()
+            self.screen.display(self.Limage)
+            self.screen.sleep()

@@ -6,51 +6,85 @@ import time
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
-from waveshare_epd import epd7in5_V2
-import os
 
-epd = epd7in5_V2.EPD()
 has_pi_sugar = False
+preview_mode = False
 
 if os.path.exists('glance.conf'):
     with open('glance.conf') as config_file:
         for row in config_file:
             key, value = row.split('=')
+            value = value.strip()
             if key == 'has_pi_sugar':
-                has_pi_sugar = bool(value)
+                has_pi_sugar = True if value.lower() == 'true' else False
+            if key == 'preview_mode':
+                preview_mode = True if value.lower() == 'true' else False
 
-def initialize():
-    logging.info("Initializing screen")
-    epd.init()
-    epd.Clear()
+class PreviewDisplay:
 
-def clear_screen():
-    logging.info("Clearing screen...")
-    epd.init()
-    epd.Clear()
-    sleep()
+    height = 800
+    width = 480
 
-def sleep():
-    logging.info("Go to sleep...")
-    epd.sleep()
+    def initialize(self):
+        pass
+    def clear_screen(self):
+        pass
+    def sleep(self):
+        pass
+    def wake(self):
+        pass
+    def close(self):
+        pass
+    
+    def display(self, Limage):
+        Limage.show()
+    
+    def get_battery(self):
+        return "100%"
 
-def wake():
-    logging.info("Wake up...")
-    epd.init()
+class ePaperDisplay:
+    
+    if not preview_mode:
+        from waveshare_epd import epd7in5_V2
 
-def close():
-    epd7in5_V2.epdconfig.module_exit()
+        epd = epd7in5_V2.EPD()
 
-def display(Limage):
-    epd.display(epd.getbuffer(Limage))
-    time.sleep(2)
+        height = epd.height
+        width = epd.width
 
-def get_battery():
-    battery = os.popen('echo "get battery" | nc -q 0 127.0.0.1 8423')
-    battery = battery.read().split(':')[1]
-    if battery.find(".") < 0:
-        value = battery + "%"
-    else:
-        value = battery[1:battery.index('.')] + '%'
-    return value
+        def initialize(self):
+            logging.info("Initializing screen")
+            self.epd.init()
+            self.epd.Clear()
 
+        def clear_screen(self):
+            logging.info("Clearing screen...")
+            self.epd.init()
+            self.epd.Clear()
+            self.sleep()
+
+        def sleep(self):
+            logging.info("Go to sleep...")
+            self.epd.sleep()
+
+        def wake(self):
+            logging.info("Wake up...")
+            self.epd.init()
+
+        def close(self):
+            self.epd7in5_V2.epdconfig.module_exit()
+
+        def display(self, Limage):
+            self.epd.display(self.epd.getbuffer(Limage))
+            time.sleep(2)
+
+        def get_battery(self):
+            battery = os.popen('echo "get battery" | nc -q 0 127.0.0.1 8423')
+            battery = battery.read().split(':')[1]
+            if battery.find(".") < 0:
+                value = battery + "%"
+            else:
+                value = battery[1:battery.index('.')] + '%'
+            return value
+
+display = PreviewDisplay() if preview_mode else ePaperDisplay()
