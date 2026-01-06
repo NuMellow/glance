@@ -10,7 +10,7 @@ class Page:
         self.base_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         self.font_dir = os.path.join(self.base_dir, "lib", "fonts")
         self.screen = screen.display
-        self.Limage = Image.new('1', (self.screen.width, self.screen.height), 255)
+        self.Limage = Image.new('1', (self.screen.height, self.screen.width), 255)
         self.draw = ImageDraw.Draw(self.Limage)
         if debug_mode is True:
             logging.basicConfig(level=logging.DEBUG)
