@@ -22,8 +22,8 @@ if os.path.exists('glance.conf'):
 
 class PreviewDisplay:
 
-    height = 800
-    width = 480
+    height = 480
+    width = 800
 
     def initialize(self):
         pass
