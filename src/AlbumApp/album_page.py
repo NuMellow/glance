@@ -1,9 +1,9 @@
-import album_pictures
 import datetime
 import os
 import random
 
 from page import Page
+from AlbumApp import album_pictures
 from PIL import Image, ImageFont
 
 class Album(Page):
@@ -11,7 +11,7 @@ class Album(Page):
     CONFIG_FILE = 'album.conf'
     def __init__(self):
         super().__init__(debug_mode=True)
-        self.pic_dir = os.path.join(self.base_dir, "src", "static", "album")
+        self.pic_dir = os.path.join(self.base_dir, "src", "AlbumApp", "res", "album")
         self.font18 = ImageFont.truetype(os.path.join(self.font_dir, "Font.ttc"), 18)
         self.schedule_download_enabled = False
         self.download_day= ''

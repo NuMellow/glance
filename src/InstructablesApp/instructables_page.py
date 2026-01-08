@@ -1,7 +1,7 @@
-import instructables_contests as ins_contests
 import os
 
 from page import Page
+from InstructablesApp import instructables_contests as ins_contests
 from PIL import Image, ImageFont
 
 class Instructables(Page):

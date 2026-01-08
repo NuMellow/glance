@@ -49,7 +49,7 @@ There are several `.conf` files in the src directory. These are configuration fi
    - numofapps - This is the total number apps.
 - album.conf - This is used for the Album app.
    -  url: Add a url to a shared google photos album. If you don't have/want to use google photos see setting below
-   -  should_download: determines whether Glance downloads the album from google photos. If you don't want to download the album repeatedly, or if you don't want/use Google photos, set this value to False. You can instead manually put your photos in a folder called album and put it in the src/static folder.
+   -  should_download: determines whether Glance downloads the album from google photos. If you don't want to download the album repeatedly, or if you don't want/use Google photos, set this value to False. You can instead manually put your photos in a folder called album and put it in the `AlbumApp/res` folder.
    -  schedule_download: This allows you to schedule downloads on a specific day of the week. If you set to False, glance will download the photo album every time it's run (everyday)
    -  download_day: If schedule_download is true, you can set a day of the week you want to download the album.
 

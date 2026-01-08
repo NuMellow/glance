@@ -3,9 +3,11 @@ import os
 import sys
 import time
 
-libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
-if os.path.exists(libdir):
-    sys.path.append(libdir)
+src_dir = os.path.dirname(os.path.realpath(__file__))
+glance_dir = os.path.dirname(src_dir)
+lib_dir = os.path.join(glance_dir, 'lib')
+if os.path.exists(lib_dir):
+    sys.path.append(lib_dir)
 
 has_pi_sugar = False
 preview_mode = False

@@ -5,8 +5,8 @@ import os
 import screen_util as screen
 import traceback
 
-from instructables_page import Instructables
-from album_page import Album
+from InstructablesApp.instructables_page import Instructables
+from AlbumApp.album_page import Album
 
 logging.basicConfig(level=logging.DEBUG)
 
