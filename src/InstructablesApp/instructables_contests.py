@@ -96,7 +96,7 @@ def update_contests():
         contest_uri = urllib.parse.quote('https://www.instructables.com' + contest.find('a')['href'], safe='/:')
         contest_graphic_uri = contest.find('img')['src']
         image = convert_image_url_to_small(contest_graphic_uri)
-        image_fname = urllib.parse.quote('static/contestImg/'
+        image_fname = urllib.parse.quote('res/contestImg/'
                                          + contest_name.replace(" ", "")
                                          .replace("#", "")
                                          .replace("&", "")

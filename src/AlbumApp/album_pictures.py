@@ -47,8 +47,8 @@ def get_images():
         print('Download the zip...')
         urllib.request.urlretrieve(download_link, zip_name)
         
-        if not os.path.exists('static/album'):
-            os.mkdir('static/album')
+        if not os.path.exists('res/album'):
+            os.mkdir('res/album')
         
         with ZipFile(zip_name, 'r') as zip:
             image_names = zip.namelist()
@@ -57,7 +57,7 @@ def get_images():
                 bmp_name = image.split('.')[0] + '.bmp'
                 img = zip.open(image)
                 ima = resize_image(img)
-                ima.save('static/album/' + bmp_name, 'BMP')
+                ima.save('res/album/' + bmp_name, 'BMP')
 
 if __name__ == '__main__':
     get_url()
