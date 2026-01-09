@@ -59,7 +59,7 @@ def get_images():
                 bmp_name = image.split('.')[0] + '.bmp'
                 img = zip.open(image)
                 ima = resize_image(img)
-                ima.save(ALBUM_DIR + bmp_name, 'BMP')
+                ima.save(ALBUM_DIR + '/' + bmp_name, 'BMP')
 
 if __name__ == '__main__':
     get_url()
