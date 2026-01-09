@@ -47,6 +47,7 @@ There are several `.conf` files in the src directory. These are configuration fi
    - page: determines which app (also called pages) to show. If you use the pi sugar battery you can set the custom button to cycle through the pages depending on what content you want to show. See wiki(comimng soon) for details
    - has_pi_sugar: determines whether Glance is using the pi sugar battery and can display battery percentage in the different apps. If you're not using the battery update it to 'False'
    - numofapps - This is the total number apps.
+   - preview_mode - Setting this to `True` allows testing glance apps without an e-paper display or raspberry pi.  
 - album.conf - This is used for the Album app.
    -  url: Add a url to a shared google photos album. If you don't have/want to use google photos see setting below
    -  should_download: determines whether Glance downloads the album from google photos. If you don't want to download the album repeatedly, or if you don't want/use Google photos, set this value to False. You can instead manually put your photos in a folder called album and put it in the `AlbumApp/res` folder.

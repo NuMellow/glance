@@ -1,0 +1,1 @@
+- the res folder contains resources such as media and documents that glance reads and stores to. Do not remove this folder
