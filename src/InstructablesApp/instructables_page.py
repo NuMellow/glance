@@ -12,6 +12,8 @@ class Instructables(Page):
     ITEM_TOP_MARGIN = 30
     TITLE_HPOS = 150
 
+    SCRAPER_ERROR_MSG = "'NoneType' object has no attribute 'find_all'"
+
     def __init__(self):
         super().__init__()
         self.pic_dir = os.path.join(self.base_dir, "pic")
@@ -19,7 +21,15 @@ class Instructables(Page):
         self.font_heading = ImageFont.truetype(font, 24)
         self.font_normal = ImageFont.truetype(font, 18)
         self.font_small = ImageFont.truetype(font, 12)
-        ins_contests.download_contests()
+        
+        try:
+            ins_contests.download_contests()
+        except AttributeError as e:
+            print(e)
+            if str(e) == self.SCRAPER_ERROR_MSG:
+                self.print_error("Contest fetcher is under construction.")
+            else:
+                self.print_error("Could not find contests")
 
     def truncate_long_name(self, name, truncate_length=32):
         truncated_name = name
