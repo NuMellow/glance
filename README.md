@@ -20,7 +20,7 @@ Glance is a picture frame-like e-ink tablet that is designed to display glance-a
 It is made using a 7.5 inch e-ink display, rasberry pi 3b, pi sugar battery hat and a 3D printed casing.
 
 It currently has 2 apps:
-- Current Contests - Displays the current open contests on instrucatables.com
+- Current Contests - [Under Maintenance] Displays the current open contests on instrucatables.com
 - Photo Album - Displays a random image from shared google photos album 
 
 ## Getting Started
