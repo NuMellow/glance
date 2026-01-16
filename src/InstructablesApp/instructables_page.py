@@ -3,6 +3,7 @@ import os
 from page import Page
 from InstructablesApp import instructables_contests as ins_contests
 from PIL import Image, ImageFont
+import asyncio
 
 class Instructables(Page):
 
@@ -23,13 +24,15 @@ class Instructables(Page):
         self.font_small = ImageFont.truetype(font, 12)
         
         try:
-            ins_contests.download_contests()
+            asyncio.run(ins_contests.download_contests())
         except AttributeError as e:
             print(e)
             if str(e) == self.SCRAPER_ERROR_MSG:
                 self.print_error("Contest fetcher is under construction.")
             else:
                 self.print_error("Could not find contests")
+        except TimeoutError as e:
+            self.print_error("Site timed out. Turn of and on to retry.")
 
     def truncate_long_name(self, name, truncate_length=32):
         truncated_name = name
@@ -71,7 +74,7 @@ class Instructables(Page):
         for item in ins_contests.contests.contests:
             if arrange <= 545:
                 name = self.truncate_long_name(item.name)
-                days_until_text = "Days left: " + str(item.days_until)
+                days_until_text = "Deadline: " + str(item.date)
                 entries = "Entries: " + str(item.entry_count)
                 pic = Image.open(item.contest_graphic_uri)
                 self.Limage.paste(pic, (self.ITEM_LEFT_MARGIN, arrange))
