@@ -27,6 +27,7 @@ import io
 from dataclasses import dataclass
 import asyncio
 import urllib
+import os
 
 from playwright.async_api import async_playwright
 
@@ -99,6 +100,9 @@ async def update_contests():
         while len(contest_card_list) == 0:
             contest_card_list = await contest_cards.all()
 
+        if not os.path.exists(IMG_DIRECTORY):
+            os.mkdir(IMG_DIRECTORY)
+
         for contest_card in contest_card_list:
             link_elements = contest_card.get_by_role("link")
             link_elements_list =  await link_elements.all()
@@ -122,6 +126,8 @@ async def update_contests():
 
             contest_deadline = contest_details_list[0].strip("Closes ")
             days_until = -1  # Contest no longer show year so cannot easily determine days left
+                             # But actually, the actual contest page has the date in full so its
+                             # possible to bring it back. Out of scope for this ticket though
 
             contest_uri = urllib.parse.quote(INSTRUCTABLES_SITE + contest_href, safe='/:')
             
