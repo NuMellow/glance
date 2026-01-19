@@ -39,6 +39,8 @@ After downloading the repository, navigate into the `glance` directory and run t
 
 #### Installing packages
 - `pip install -r requirements.txt` - Installs necessary packages to run glance
+- `playwright install` - Installs required browsers for the 
+InstructablesApp's webscraper
 
 #### Setting up the .conf files
 There are several `.conf` files in the src directory. These are configuration files that can configure the way glance behaves
