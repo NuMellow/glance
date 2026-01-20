@@ -20,7 +20,7 @@ Glance is a picture frame-like e-ink tablet that is designed to display glance-a
 It is made using a 7.5 inch e-ink display, rasberry pi 3b, pi sugar battery hat and a 3D printed casing.
 
 It currently has 2 apps:
-- Current Contests - [Under Maintenance] Displays the current open contests on instrucatables.com
+- Current Contests - Displays the current open contests on [instructables.com](https://instructables.com)
 - Photo Album - Displays a random image from shared google photos album 
 
 ## Getting Started
@@ -41,6 +41,8 @@ After downloading the repository, navigate into the `glance` directory and run t
 - `pip install -r requirements.txt` - Installs necessary packages to run glance
 - `playwright install` - Installs required browsers for the 
 InstructablesApp's webscraper
+
+Note: If you get an error installing playwright, make sure your package list is up to date by running `sudo apt update` and try installing manually with `pip install playwright`. Once installed run `playwright install` to install the required browsers
 
 #### Setting up the .conf files
 There are several `.conf` files in the src directory. These are configuration files that can configure the way glance behaves
@@ -65,5 +67,5 @@ The screen remains on even without power, so if you are using a battery you can 
 If you have app requests you could create an issue with the "App request" label and perhaps I might make it. Or if you would like to make your own apps for Glance, you can either fork this repo and create to your heart's content or pull this repo and create a pull request to have it added to this project 😀.
 
 ## Acknowledgements and credits
-- The instrucatbles contest app makes use of the webscraper created by James Matlock in his repo: https://github.com/jmatlock/ContestScraperFlask
+- The instrucatbles contest app makes use of the Contest class created by James Matlock in his repo: https://github.com/jmatlock/ContestScraperFlask
 
