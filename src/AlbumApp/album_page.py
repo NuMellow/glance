@@ -8,7 +8,7 @@ from PIL import Image, ImageFont
 
 class Album(Page):
 
-    CONFIG_FILE = 'album.conf'
+    CONFIG_FILE = 'AlbumApp/album.conf'
     def __init__(self):
         super().__init__(debug_mode=True)
         self.pic_dir = os.path.join(self.base_dir, "src", "AlbumApp", "res", "album")
@@ -16,6 +16,7 @@ class Album(Page):
         self.schedule_download_enabled = False
         self.download_day= ''
         self.should_download=True
+        self.pre_downloaded = False
         if os.path.exists(self.CONFIG_FILE):
             with open(self.CONFIG_FILE) as config:
                 for row in config:
@@ -33,10 +34,6 @@ class Album(Page):
         self.Limage.paste(bmp, (0, 0))
     
     def get_random_photo(self):
-        if not os.path.exists(self.pic_dir):
-            os.mkdir(self.pic_dir)
-            self.download_photos()
-
         photo_list = os.listdir(self.pic_dir)
         if len(photo_list) > 0:
             index = random.randint(0, len(photo_list) -1)
@@ -63,7 +60,19 @@ class Album(Page):
             self.draw.rectangle([420, 775, 470, 800], fill=255)
             self.draw.text((429, 780), battery, font=self.font18, fill=0)
 
+    def download_if_empty(self):
+        album_does_not_exist =  not os.path.exists(self.pic_dir)
+        album_exists_but_is_empty = os.path.exists(self.pic_dir) and not len(os.listdir(self.pic_dir)) > 0
+
+        if album_does_not_exist:
+            os.mkdir(self.pic_dir)
+           
+        if album_does_not_exist or album_exists_but_is_empty:   
+            self.download_photos()
+            self.pre_downloaded = True
+
     def draw_page(self):
+        self.download_if_empty()
         self.get_random_photo()
         self.draw_battery()
  

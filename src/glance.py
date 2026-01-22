@@ -28,7 +28,8 @@ def main():
             start_page(Instructables)
         elif page == 1:
             album = start_page(Album)
-            album.download_photos()
+            if not album.pre_downloaded:
+                album.download_photos()
         else:
             start_page(Instructables)
     except IOError as e:
