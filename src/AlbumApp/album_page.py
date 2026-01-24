@@ -40,7 +40,7 @@ class Album(Page):
             photo = photo_list[index]
             self.draw_photo(photo)
         else:
-            self.print_error("Album is empty")
+            self.print_error("Album is empty. If download is enabled, check that scheduled download is off or the same day as today. Turn glance off and on to retry.")
 
     def download_photos(self):
         if self.should_download:
