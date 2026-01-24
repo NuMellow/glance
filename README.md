@@ -67,5 +67,5 @@ The screen remains on even without power, so if you are using a battery you can 
 If you have app requests you could create an issue with the "App request" label and perhaps I might make it. Or if you would like to make your own apps for Glance, you can either fork this repo and create to your heart's content or pull this repo and create a pull request to have it added to this project 😀.
 
 ## Acknowledgements and credits
-- The instrucatbles contest app makes use of the Contest class created by James Matlock in his repo: https://github.com/jmatlock/ContestScraperFlask
+- The instructables contest app makes use of the Contest class created by James Matlock in his repo: https://github.com/jmatlock/ContestScraperFlask
 
