@@ -61,7 +61,7 @@ There are several `.conf` files in the src directory. These are configuration fi
 #### Running glance
 `python glance.py`
 
-The screen remains on even without power, so if you are using a battery you can shutdown you pi and the display will continue to show information. Of course this also means that it will not be able to update the information. If you use the pi sugar, you can have it start up at a specific time every day. See wiki(coming soon) for details.
+The screen remains on even without power, so if you are using a battery you can shutdown you pi and the display will continue to show information. Of course this also means that it will not be able to update the information. If you use the pi sugar, you can have it start up at a specific time every day. Check out the [wiki](https://github.com/NuMellow/glance/wiki/2.-Automating-Glance#scheduled-wake) for details.
 
 ## Contributing, adding and suggesting your own apps
 If you have app requests you could create an issue with the "App request" label and perhaps I might make it. Or if you would like to make your own apps for Glance, you can either fork this repo and create to your heart's content or pull this repo and create a pull request to have it added to this project 😀.
