@@ -1,0 +1,9 @@
+[Unit]
+Description=Glance Startup service
+After=network-online.target
+
+[Service]
+ExecStart=/absoulte/path/to/glance/src/startup.sh
+
+[Install]
+WantedBy=multi-user.target
