@@ -30,7 +30,7 @@ class Album(Page):
                         self.should_download = False if value.lower() == 'false' else True
 
     def draw_photo(self, photo_name):
-        bmp = Image.open(os.path.join(self.pic_dir, photo_name))
+        bmp = album_pictures.resize_image(os.path.join(self.pic_dir, photo_name))
         self.Limage.paste(bmp, (0, 0))
     
     def get_random_photo(self):
